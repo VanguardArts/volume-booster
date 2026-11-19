@@ -14,7 +14,9 @@ Controls:
   * The tray icon always shows the current level, highlighted when boosted.
 """
 
+import os
 import re
+import shutil
 import subprocess
 import sys
 
@@ -86,6 +88,50 @@ class Audio:
             ["pactl", "set-sink-mute", "@DEFAULT_SINK@", val],
             capture_output=True, text=True, timeout=3,
         )
+
+
+# --------------------------------------------------------------------------- #
+#  Autostart (launch at login via XDG autostart)
+# --------------------------------------------------------------------------- #
+_AUTOSTART_DESKTOP = """[Desktop Entry]
+Type=Application
+Name=Volume Booster
+Comment=Boost system audio above 100% for quiet videos
+Exec={exec}
+Icon=volume-booster
+Terminal=false
+Categories=AudioVideo;Audio;Utility;
+X-GNOME-Autostart-enabled=true
+"""
+
+
+def _autostart_path() -> str:
+    base = os.environ.get("XDG_CONFIG_HOME") or os.path.join(os.path.expanduser("~"), ".config")
+    return os.path.join(base, "autostart", "volume-booster.desktop")
+
+
+def _executable_path() -> str:
+    exe = sys.argv[0]
+    if not os.path.isabs(exe):
+        exe = shutil.which(exe) or os.path.abspath(exe)
+    return os.path.realpath(exe)
+
+
+def autostart_enabled() -> bool:
+    return os.path.isfile(_autostart_path())
+
+
+def autostart_set(enabled: bool) -> None:
+    path = _autostart_path()
+    if enabled:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w") as fh:
+            fh.write(_AUTOSTART_DESKTOP.format(exec=_executable_path()))
+    else:
+        try:
+            os.remove(path)
+        except FileNotFoundError:
+            pass
 
 
 # --------------------------------------------------------------------------- #
@@ -313,6 +359,13 @@ class VolumeBooster(QApplication):
 
         menu.addSeparator()
 
+        self.autostart_action = menu.addAction("Launch at startup")
+        self.autostart_action.setCheckable(True)
+        self.autostart_action.setChecked(autostart_enabled())
+        self.autostart_action.triggered.connect(self._toggle_autostart)
+
+        menu.addSeparator()
+
         quit_action = menu.addAction("Quit")
         quit_action.triggered.connect(self.quit)
 
@@ -349,6 +402,9 @@ class VolumeBooster(QApplication):
 
     def _reset(self):
         self._apply_slider(RESET_PCT)
+
+    def _toggle_autostart(self, checked: bool):
+        autostart_set(checked)
 
     # ----- sync ------------------------------------------------------------- #
     def _poll(self):

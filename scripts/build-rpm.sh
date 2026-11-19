@@ -6,7 +6,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-VERSION="1.1.1"
+VERSION="1.1.2"
 NAME="volume-booster"
 OUT="$ROOT/build/rpm"
 TARBALL="$NAME-$VERSION.tar.gz"

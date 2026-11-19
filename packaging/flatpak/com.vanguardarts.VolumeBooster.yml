@@ -27,7 +27,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/VanguardArts/volume-booster.git
-        tag: v1.1.1
+        tag: v1.1.2
 
   - name: pulseaudio-utils
     buildsystem: meson

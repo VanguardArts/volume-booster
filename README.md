@@ -82,19 +82,19 @@ Prebuilt artifacts are on the
 ### Debian / Ubuntu
 
 ```bash
-sudo apt install ./volume-booster_1.1.1_all.deb
+sudo apt install ./volume-booster_1.1.2_all.deb
 ```
 
 ### Fedora / RHEL / Rocky / Alma
 
 ```bash
-sudo dnf install ./volume-booster-1.1.1-1.noarch.rpm
+sudo dnf install ./volume-booster-1.1.2-1.noarch.rpm
 ```
 
 ### openSUSE
 
 ```bash
-sudo zypper install ./volume-booster-1.1.1-1.noarch.rpm
+sudo zypper install ./volume-booster-1.1.2-1.noarch.rpm
 ```
 
 ### Arch Linux
