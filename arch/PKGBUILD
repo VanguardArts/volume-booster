@@ -1,6 +1,6 @@
 # Maintainer: Vanguard Arts SRL <support@vanguardarts.com>
 pkgname=volume-booster
-pkgver=1.0.0
+pkgver=1.1.0
 pkgrel=1
 pkgdesc="System tray volume booster for quiet audio (PipeWire/PulseAudio software gain)"
 arch=('any')
@@ -17,4 +17,8 @@ package() {
         "$pkgdir/usr/share/applications/volume-booster.desktop"
     install -Dm644 packaging/volume-booster.svg \
         "$pkgdir/usr/share/icons/hicolor/scalable/apps/volume-booster.svg"
+    for sz in 16 24 32 48 64 96 128 256 512; do
+        install -Dm644 "packaging/icons/hicolor/${sz}x${sz}/apps/volume-booster.png" \
+            "$pkgdir/usr/share/icons/hicolor/${sz}x${sz}/apps/volume-booster.png"
+    done
 }

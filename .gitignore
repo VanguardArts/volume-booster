@@ -10,6 +10,15 @@ build/
 dist/
 *.deb
 *.rpm
+*.AppImage
+*.flatpak
+
+# Nix
+result/
+.direnv/
+
+# Flatpak
+.flatpak-builder/
 
 # Editor / OS
 .vscode/

@@ -8,6 +8,16 @@ It works by asking PipeWire/PulseAudio to apply digital gain on your default
 sink. No audio is re-routed or re-encoded; it simply raises the output level.
 
 ![license](https://img.shields.io/badge/license-MIT-blue.svg)
+![platform](https://img.shields.io/badge/platform-Linux-orange.svg)
+
+## Screenshots
+
+The slider window (left) and the tray context menu (right):
+
+<p align="center">
+  <img src="screenshots/slider-160.png" alt="Volume Booster slider at 160%" width="48%">
+  <img src="screenshots/tray-menu.png" alt="Volume Booster tray menu" width="32%">
+</p>
 
 ## Why? Can't I just turn everything up?
 
@@ -33,13 +43,13 @@ not a recommendation. The *useful* limit is set by **digital clipping**, because
 at 100% the DAC is already outputting full scale (0 dBFS); anything above 100% is
 pure software gain.
 
-| Boost | Gain    | When it's useful                          |
-| ----- | ------- | ----------------------------------------- |
-| 100%  | 0 dB    | normal listening                          |
-| 125%  | +1.9 dB | gentle lift                               |
-| 150%  | +3.5 dB | quiet videos — comfortable sweet spot     |
-| 200%  | +6.0 dB | very quiet dialogue/podcasts (default cap)|
-| 300%  | +9.5 dB | extremely quiet sources, mild clipping    |
+| Boost | Gain    | When it's useful                            |
+| ----- | ------- | ------------------------------------------- |
+| 100%  | 0 dB    | normal listening                            |
+| 125%  | +1.9 dB | gentle lift                                 |
+| 150%  | +3.5 dB | quiet videos — comfortable sweet spot       |
+| 200%  | +6.0 dB | very quiet dialogue/podcasts (default cap)  |
+| 300%  | +9.5 dB | extremely quiet sources, mild clipping      |
 | 400%+ | +12 dB+ | mostly clipping; risky for your ears/speakers |
 
 > **Practical answer:** for most "can barely hear it" content, **150–200%** is the
@@ -49,43 +59,80 @@ pure software gain.
 
 ## Requirements
 
-- Linux with **PipeWire** or **PulseAudio** (basically any modern distro).
-- **Python 3** and **PyQt6**.
-- `pactl` (from `pulseaudio-utils` / `pipewire-pulse`).
+- Linux with **PipeWire** or **PulseAudio**, **Python 3**, **PyQt6**, and `pactl`.
 
 ## Install
 
-### Debian / Ubuntu (.deb)
+Every major distro family is covered:
 
-Download `volume-booster_1.0.0_all.deb` from the
-[releases](https://github.com/VanguardArts/volume-booster/releases) page and:
+| Distro family                     | Package                                                      |
+| --------------------------------- | ------------------------------------------------------------ |
+| Debian / Ubuntu                   | `.deb`                                                       |
+| Fedora                            | `.rpm`                                                       |
+| RHEL / Rocky / Alma               | `.rpm`                                                       |
+| openSUSE Leap / Tumbleweed        | `.rpm`                                                       |
+| Arch / Manjaro                    | `PKGBUILD` (and AUR)                                         |
+| NixOS                             | `flake.nix`                                                  |
+| Universal (any distro)            | `Flatpak` or `AppImage`                                      |
+| Any Linux (no root)               | `install.sh` portable installer                              |
+
+Prebuilt artifacts are on the
+[releases](https://github.com/VanguardArts/volume-booster/releases) page.
+
+### Debian / Ubuntu
 
 ```bash
-sudo apt install ./volume-booster_1.0.0_all.deb
+sudo apt install ./volume-booster_1.1.0_all.deb
 ```
 
-Or build it yourself:
+### Fedora / RHEL / Rocky / Alma
 
 ```bash
-scripts/build-deb.sh
-sudo apt install ./build/volume-booster_1.0.0_all.deb
+sudo dnf install ./volume-booster-1.1.0-1.noarch.rpm
 ```
 
-### Portable install (any distro, no root)
+### openSUSE
 
 ```bash
-./install.sh            # installs to ~/.local
+sudo zypper install ./volume-booster-1.1.0-1.noarch.rpm
 ```
-Override the location with `PREFIX=/usr/local ./install.sh` (use `sudo`).
 
 ### Arch Linux
 
 ```bash
+# from the repo
 cd arch && makepkg -si
 ```
-(An [AUR](https://aur.archlinux.org) package can be added on request.)
 
-### From source (development)
+### NixOS / Nix
+
+```bash
+nix run github:VanguardArts/volume-booster
+# or, in a flake-enabled system:
+nix profile install github:VanguardArts/volume-booster
+```
+
+### Flatpak (universal)
+
+```bash
+flatpak install ./volume-booster.flatpak
+```
+
+### AppImage (universal)
+
+```bash
+chmod +x ./volume-booster-x86_64.AppImage
+./volume-booster-x86_64.AppImage
+```
+
+### Portable installer (any distro, no root)
+
+```bash
+./install.sh            # installs to ~/.local
+```
+Override with `PREFIX=/usr/local ./install.sh` (use `sudo`).
+
+### From source
 
 ```bash
 python3 volume_booster.py
@@ -94,26 +141,33 @@ python3 volume_booster.py
 ## Usage
 
 ```bash
-volume-booster          # start (also appears in your app menu)
+volume-booster          # start (also in your app menu)
 ```
-To run it automatically at login, add a copy of
-`packaging/volume-booster.desktop` to `~/.config/autostart/`.
+To run it automatically at login, copy `packaging/volume-booster.desktop` to
+`~/.config/autostart/`.
 
 ## Uninstall
 
 ```bash
-./uninstall.sh                      # if installed via install.sh
-sudo apt remove volume-booster      # if installed via .deb
+./uninstall.sh                      # portable install
+sudo apt remove volume-booster      # .deb
+sudo dnf remove volume-booster      # .rpm (Fedora/RHEL)
+sudo zypper remove volume-booster   # .rpm (openSUSE)
+flatpak uninstall com.vanguardarts.VolumeBooster
 ```
 
-## Development
+## Building the installers
 
 ```bash
-make install    # portable install
-make deb        # build the .deb
+make icons     # regenerate PNG icon set (requires Pillow)
+make screenshots
+make deb       # -> build/deb/*.deb
+make rpm       # -> build/rpm/RPMS/noarch/*.rpm
+make flatpak   # -> build/flatpak/volume-booster.flatpak  (needs flatpak-builder)
+make appimage  # -> build/appimage/*.AppImage            (best run in CI)
 ```
-The whole app is one file (`volume_booster.py`) with no runtime dependencies
-beyond Python + PyQt6 + pactl.
+See `scripts/` for the individual build scripts and `.github/workflows/release.yml`
+for the CI-driven release pipeline (builds `.deb` and `.rpm` on every `v*` tag).
 
 ## License
 

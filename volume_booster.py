@@ -18,8 +18,8 @@ import re
 import subprocess
 import sys
 
-from PyQt6.QtCore import Qt, QTimer, QPoint
-from PyQt6.QtGui import QIcon, QPixmap, QPainter, QColor, QFont, QPainterPath, QPen, QPolygon
+from PyQt6.QtCore import Qt, QTimer, QPoint, QPointF, QRectF
+from PyQt6.QtGui import QIcon, QPixmap, QPainter, QColor, QFont, QPainterPath, QPen, QPolygon, QPolygonF
 from PyQt6.QtWidgets import (
     QApplication,
     QMenu,
@@ -92,56 +92,62 @@ class Audio:
 #  Tray icon drawing
 # --------------------------------------------------------------------------- #
 def make_icon(pct: int, muted: bool) -> QIcon:
-    size = 64
+    """Draw the app's speaker glyph (magnet + cone + waves) with state color.
+
+    Colors: white = normal, orange = boosted, gray = muted. A small badge
+    shows the percentage (or MUTE) whenever the level isn't 100%.
+    """
+    size = 128
     pm = QPixmap(size, size)
     pm.fill(Qt.GlobalColor.transparent)
+
+    if muted:
+        color = QColor("#9aa0a6")
+    elif pct > RESET_PCT:
+        color = QColor("#ff9d3c")
+    else:
+        color = QColor("#f5f5f5")
+
+    s = size / 512.0  # geometry is authored on a 512 canvas (see make_icons.py)
 
     p = QPainter(pm)
     p.setRenderHint(QPainter.RenderHint.Antialiasing)
 
-    # Speaker body + cone
-    body = QColor("#e6e6e6")
-    if muted:
-        body = QColor("#888888")
-    elif pct > RESET_PCT:
-        body = QColor("#ff9d3c")  # orange = boosted
+    # magnet (rounded bar) + cone (flaring trapezoid)
     p.setPen(Qt.PenStyle.NoPen)
-    p.setBrush(body)
+    p.setBrush(color)
+    p.drawRoundedRect(QRectF(150 * s, 232 * s, 42 * s, 48 * s), 8 * s, 8 * s)
+    p.drawPolygon(QPolygonF([
+        QPointF(192 * s, 232 * s), QPointF(268 * s, 200 * s),
+        QPointF(268 * s, 312 * s), QPointF(192 * s, 280 * s),
+    ]))
 
-    # cone (triangle)
-    cone = QPolygon([
-        QPoint(16, 26), QPoint(26, 26), QPoint(26, 38), QPoint(16, 38),
-    ])
-    p.drawPolygon(cone)
-    # body (rounded square)
-    p.drawRoundedRect(26, 30, 8, 4 + 8, 2, 2)  # small tweeter-ish block
-
-    # sound waves
-    wave = QPen(body, 3)
-    wave.setCapStyle(Qt.PenCapStyle.RoundCap)
-    p.setPen(wave)
-    if not muted:
-        p.drawArc(28, 18, 18, 28, -60 * 16, 120 * 16)
-        if pct > RESET_PCT:
-            p.drawArc(33, 12, 20, 40, -50 * 16, 100 * 16)
-        if pct > 150:
-            p.drawArc(38, 6, 20, 52, -45 * 16, 90 * 16)
-
+    # sound waves (stroked arcs opening to the right)
+    pen = QPen(color, 18.0 * s)
+    pen.setCapStyle(Qt.PenCapStyle.RoundCap)
+    p.setPen(pen)
+    p.setBrush(Qt.BrushStyle.NoBrush)
+    for r in (52, 88):
+        p.drawArc(QRectF((278 - r) * s, (256 - r) * s, 2 * r * s, 2 * r * s),
+                  int(-58 * 16), int(116 * 16))
     p.end()
 
-    # Badge with the percentage
+    # percentage / mute badge
     if pct != RESET_PCT or muted:
-        badge_font = QFont("Sans", 8)
-        badge_font.setBold(True)
+        h = int(size * 0.22)
+        r = int(size * 0.04)
+        badge = QFont()
+        badge.setPixelSize(int(size * 0.15))
+        badge.setBold(True)
         p = QPainter(pm)
         p.setRenderHint(QPainter.RenderHint.Antialiasing)
         p.setPen(Qt.PenStyle.NoPen)
         p.setBrush(QColor(0, 0, 0, 150))
-        p.drawRoundedRect(0, 44, size, 20, 4, 4)
+        p.drawRoundedRect(0, size - h, size, h, r, r)
         p.setPen(QColor("#ffffff"))
-        p.setFont(badge_font)
+        p.setFont(badge)
         label = "MUTE" if muted else f"{pct}%"
-        p.drawText(0, 44, size, 20, Qt.AlignmentFlag.AlignCenter, label)
+        p.drawText(0, size - h, size, h, Qt.AlignmentFlag.AlignCenter, label)
         p.end()
 
     return QIcon(pm)

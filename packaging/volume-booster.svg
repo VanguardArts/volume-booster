@@ -1,9 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
-  <rect x="4" y="4" width="120" height="120" rx="28" fill="#232323"/>
-  <polygon points="32,56 58,50 58,78 32,72" fill="#f2f2f2"/>
-  <rect x="58" y="54" width="14" height="20" rx="4" fill="#f2f2f2"/>
-  <g fill="none" stroke="#ff9d3c" stroke-width="5" stroke-linecap="round">
-    <path d="M78 50 Q90 64 78 78"/>
-    <path d="M90 42 Q104 64 90 86"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffab40"/>
+      <stop offset="1" stop-color="#ff6d00"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="512" height="512" rx="112" fill="url(#bg)"/>
+  <g fill="#ffffff">
+    <rect x="150" y="232" width="42" height="48" rx="8"/>
+    <polygon points="192,232 268,200 268,312 192,280"/>
+  </g>
+  <g fill="none" stroke="#ffffff" stroke-width="18" stroke-linecap="round">
+    <path d="M305.6 300.1 A52 52 0 0 1 305.6 211.9"/>
+    <path d="M324.6 330.6 A88 88 0 0 1 324.6 181.4"/>
   </g>
 </svg>

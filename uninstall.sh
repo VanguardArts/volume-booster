@@ -10,6 +10,10 @@ rm -f \
   "$PREFIX/share/applications/volume-booster.desktop" \
   "$PREFIX/share/icons/hicolor/scalable/apps/volume-booster.svg"
 
+for sz in 16 24 32 48 64 96 128 256 512; do
+    rm -f "$PREFIX/share/icons/hicolor/${sz}x${sz}/apps/volume-booster.png"
+done
+
 command -v update-desktop-database >/dev/null 2>&1 \
   && update-desktop-database "$PREFIX/share/applications" 2>/dev/null || true
 

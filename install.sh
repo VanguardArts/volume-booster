@@ -18,6 +18,10 @@ mkdir -p "$BIN" "$APPS" "$ICONS"
 install -m 0755 "$SRC_DIR/volume_booster.py"  "$BIN/volume-booster"
 install -m 0644 "$SRC_DIR/packaging/volume-booster.desktop" "$APPS/volume-booster.desktop"
 install -m 0644 "$SRC_DIR/packaging/volume-booster.svg"     "$ICONS/volume-booster.svg"
+for sz in 16 24 32 48 64 96 128 256 512; do
+    install -Dm 0644 "$SRC_DIR/packaging/icons/hicolor/${sz}x${sz}/apps/volume-booster.png" \
+        "$PREFIX/share/icons/hicolor/${sz}x${sz}/apps/volume-booster.png"
+done
 
 # Refresh desktop/icon caches when the tools exist.
 command -v update-desktop-database >/dev/null 2>&1 \

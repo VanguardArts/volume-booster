@@ -6,7 +6,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-VERSION="1.0.0"
+VERSION="1.1.0"
 PKG="volume-booster"
 STAGE="$ROOT/build/deb/${PKG}_${VERSION}_all"
 DEBIAN="$STAGE/DEBIAN"
@@ -27,6 +27,10 @@ mkdir -p \
 install -m 0755 "$ROOT/volume_booster.py"  "$STAGE/usr/bin/volume-booster"
 install -m 0644 "$ROOT/packaging/volume-booster.desktop" "$STAGE/usr/share/applications/volume-booster.desktop"
 install -m 0644 "$ROOT/packaging/volume-booster.svg"     "$STAGE/usr/share/icons/hicolor/scalable/apps/volume-booster.svg"
+for sz in 16 24 32 48 64 96 128 256 512; do
+    install -Dm 0644 "$ROOT/packaging/icons/hicolor/${sz}x${sz}/apps/volume-booster.png" \
+        "$STAGE/usr/share/icons/hicolor/${sz}x${sz}/apps/volume-booster.png"
+done
 
 # Package metadata (render version placeholder, if any).
 sed "s/__VERSION__/$VERSION/g" "$ROOT/packaging/debian/control" > "$DEBIAN/control"

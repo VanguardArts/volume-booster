@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.vanguardarts.VolumeBooster</id>
+  <name>Volume Booster</name>
+  <summary>Boost system audio above 100%</summary>
+  <metadata_license>MIT</metadata_license>
+  <project_license>MIT</project_license>
+  <developer_name>Vanguard Arts SRL</developer_name>
+  <description>
+    <p>
+      Boost the default audio output above 100% using PipeWire/PulseAudio
+      software gain. Useful for YouTube videos and other sources that are
+      inherently quiet even when every volume slider is at maximum.
+    </p>
+    <p>
+      Left-click the tray icon to open a 0-200% slider; right-click for quick
+      presets (100-200%) and reset.
+    </p>
+  </description>
+  <launchable type="desktop-id">com.vanguardarts.VolumeBooster.desktop</launchable>
+  <url type="homepage">https://github.com/VanguardArts/volume-booster</url>
+  <url type="bugtracker">https://github.com/VanguardArts/volume-booster/issues</url>
+  <releases>
+    <release version="1.1.0" date="2026-11-20"/>
+  </releases>
+  <content_rating type="oars-1.1"/>
+</component>

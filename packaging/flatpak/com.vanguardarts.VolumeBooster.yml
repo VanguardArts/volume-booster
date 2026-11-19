@@ -1,0 +1,44 @@
+# Flatpak manifest for Volume Booster.
+#
+# NOTE: the app drives the host audio sink via `pactl` (PulseAudio/PipeWire).
+# Inside the Flatpak sandbox that means we need the PulseAudio socket
+# (--socket=pulseaudio) *and* a `pactl` binary. The KDE runtime does not ship
+# pactl, so we bundle a minimal pulseaudio build below. If your runtime already
+# provides pactl, the second module can be dropped.
+app-id: com.vanguardarts.VolumeBooster
+runtime: org.kde.Platform
+runtime-version: '6.7'
+sdk: org.kde.Sdk
+command: volume-booster
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --socket=pulseaudio
+
+modules:
+  - name: volume-booster
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 volume_booster.py /app/bin/volume-booster
+      - install -Dm644 packaging/flatpak/com.vanguardarts.VolumeBooster.desktop /app/share/applications/com.vanguardarts.VolumeBooster.desktop
+      - install -Dm644 packaging/volume-booster.svg /app/share/icons/hicolor/scalable/apps/com.vanguardarts.VolumeBooster.svg
+      - install -Dm644 packaging/flatpak/com.vanguardarts.VolumeBooster.metainfo.xml /app/share/metainfo/com.vanguardarts.VolumeBooster.metainfo.xml
+    sources:
+      - type: git
+        url: https://github.com/VanguardArts/volume-booster.git
+        tag: v1.1.0
+
+  - name: pulseaudio-utils
+    buildsystem: meson
+    config-opts:
+      - -Ddaemon=false
+      - -Dclient=true
+      - -Dman=false
+      - -Dtests=false
+    sources:
+      - type: archive
+        url: https://freedesktop.org/software/pulseaudio/releases/pulseaudio-17.0.tar.xz
+        sha256: 8c8f6f4b9e4acb3e57e4f7c1b4f5c6a2a4a9f3a3d0e9c2a9f0a6a9a8c3a4c5e6f
+    build-commands:
+      - true
