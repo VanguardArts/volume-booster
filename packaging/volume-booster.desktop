@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Volume Booster
+Comment=Boost system audio above 100% for quiet videos
+Exec=volume-booster
+Icon=volume-booster
+Terminal=false
+Categories=AudioVideo;Audio;Utility;
+StartupNotify=false

@@ -1,0 +1,15 @@
+Package: volume-booster
+Version: 1.0.0
+Section: sound
+Priority: optional
+Architecture: all
+Depends: python3, python3-pyqt6, pulseaudio-utils
+Maintainer: Vanguard Arts SRL <support@vanguardarts.com>
+Homepage: https://github.com/VanguardArts/volume-booster
+Description: system tray volume booster for quiet audio
+ Boost the default audio output above 100% using PipeWire/PulseAudio
+ software gain. Useful for YouTube videos and other sources that are
+ inherently quiet even when every volume slider is at maximum.
+ .
+ Left-click the tray icon to open a 0-200% slider; right-click for
+ quick presets (100-200%) and reset.
