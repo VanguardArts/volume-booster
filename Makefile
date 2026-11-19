@@ -1,12 +1,18 @@
 PREFIX ?= $(HOME)/.local
 
-.PHONY: install uninstall icons screenshots deb rpm flatpak appimage clean
+.PHONY: install uninstall autostart no-autostart icons screenshots deb rpm flatpak appimage clean
 
 install:
 	PREFIX=$(PREFIX) bash install.sh
 
 uninstall:
 	PREFIX=$(PREFIX) bash uninstall.sh
+
+autostart:
+	bash scripts/enable-autostart.sh
+
+no-autostart:
+	bash scripts/disable-autostart.sh
 
 icons:
 	python3 scripts/make_icons.py

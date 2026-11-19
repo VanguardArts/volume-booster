@@ -140,11 +140,25 @@ python3 volume_booster.py
 
 ## Usage
 
+**First launch** — after installing, either:
+
 ```bash
-volume-booster          # start (also in your app menu)
+volume-booster          # from a terminal
 ```
-To run it automatically at login, copy `packaging/volume-booster.desktop` to
-`~/.config/autostart/`.
+…or search for **"Volume Booster"** in your application launcher (app menu) and
+click it.
+
+**Start at login (autostart):**
+
+```bash
+./install.sh --autostart        # install AND enable autostart
+# or, if already installed:
+scripts/enable-autostart.sh     # enable autostart
+scripts/disable-autostart.sh    # disable autostart
+```
+
+This drops a launcher into `~/.config/autostart/` so the app starts when you
+sign in.
 
 ## Uninstall
 

@@ -13,6 +13,14 @@ ICONS="$PREFIX/share/icons/hicolor/scalable/apps"
 
 SRC_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# Optional autostart-at-login flag.
+AUTOSTART=0
+for arg in "$@"; do
+    case "$arg" in
+        --autostart|-a) AUTOSTART=1 ;;
+    esac
+done
+
 mkdir -p "$BIN" "$APPS" "$ICONS"
 
 install -m 0755 "$SRC_DIR/volume_booster.py"  "$BIN/volume-booster"
@@ -28,6 +36,11 @@ command -v update-desktop-database >/dev/null 2>&1 \
   && update-desktop-database "$PREFIX/share/applications" 2>/dev/null || true
 command -v gtk-update-icon-cache >/dev/null 2>&1 \
   && gtk-update-icon-cache -f -t "$PREFIX/share/icons/hicolor" 2>/dev/null || true
+
+# Optional autostart-at-login.
+if [ "$AUTOSTART" = "1" ]; then
+    bash "$SRC_DIR/scripts/enable-autostart.sh"
+fi
 
 echo "✔ Volume Booster installed to $PREFIX"
 echo "  Launch with:  volume-booster"
