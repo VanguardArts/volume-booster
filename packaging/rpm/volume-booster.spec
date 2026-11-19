@@ -1,5 +1,5 @@
 Name:           volume-booster
-Version:        1.1.0
+Version:        1.1.1
 Release:        1%{?dist}
 Summary:        System tray volume booster for quiet audio
 License:        MIT
@@ -55,5 +55,7 @@ done
 %{_datadir}/icons/hicolor/512x512/apps/volume-booster.png
 
 %changelog
+* Fri Nov 20 2026 Vanguard Arts SRL <support@vanguardarts.com> - 1.1.1-1
+- Update app icon (speaker with boost badge).
 * Fri Nov 20 2026 Vanguard Arts SRL <support@vanguardarts.com> - 1.1.0-1
 - Initial RPM packaging for Fedora / RHEL / Rocky / Alma / openSUSE.

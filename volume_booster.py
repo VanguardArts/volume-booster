@@ -92,44 +92,71 @@ class Audio:
 #  Tray icon drawing
 # --------------------------------------------------------------------------- #
 def make_icon(pct: int, muted: bool) -> QIcon:
-    """Draw the app's speaker glyph (magnet + cone + waves) with state color.
+    """Draw the app icon (orange speaker + waves + green boost badge).
 
-    Colors: white = normal, orange = boosted, gray = muted. A small badge
-    shows the percentage (or MUTE) whenever the level isn't 100%.
+    Mirrors packaging/volume-booster.svg. The glyph greys out when muted; a
+    small badge shows the percentage (or MUTE) whenever the level isn't 100%.
     """
     size = 128
     pm = QPixmap(size, size)
     pm.fill(Qt.GlobalColor.transparent)
 
     if muted:
-        color = QColor("#9aa0a6")
-    elif pct > RESET_PCT:
-        color = QColor("#ff9d3c")
+        body = QColor("#9aa0a6")   # grey
+        plus = QColor("#8a8f96")
     else:
-        color = QColor("#f5f5f5")
+        body = QColor("#F28C28")   # orange
+        plus = QColor("#19B77A")   # green
+    cross_color = QColor("#ffffff")
 
-    s = size / 512.0  # geometry is authored on a 512 canvas (see make_icons.py)
+    s = size / 512.0  # geometry authored on a 512 canvas (matches the SVG)
 
     p = QPainter(pm)
     p.setRenderHint(QPainter.RenderHint.Antialiasing)
 
-    # magnet (rounded bar) + cone (flaring trapezoid)
+    # speaker body
     p.setPen(Qt.PenStyle.NoPen)
-    p.setBrush(color)
-    p.drawRoundedRect(QRectF(150 * s, 232 * s, 42 * s, 48 * s), 8 * s, 8 * s)
-    p.drawPolygon(QPolygonF([
-        QPointF(192 * s, 232 * s), QPointF(268 * s, 200 * s),
-        QPointF(268 * s, 312 * s), QPointF(192 * s, 280 * s),
-    ]))
+    p.setBrush(body)
+    sp = QPainterPath()
+    sp.moveTo(76 * s, 202 * s)
+    sp.lineTo(151 * s, 202 * s)
+    sp.lineTo(247 * s, 126 * s)
+    sp.cubicTo(260 * s, 116 * s, 280 * s, 125 * s, 280 * s, 143 * s)
+    sp.lineTo(280 * s, 369 * s)
+    sp.cubicTo(280 * s, 387 * s, 260 * s, 396 * s, 247 * s, 386 * s)
+    sp.lineTo(151 * s, 310 * s)
+    sp.lineTo(76 * s, 310 * s)
+    sp.cubicTo(63 * s, 310 * s, 52 * s, 299 * s, 52 * s, 286 * s)
+    sp.lineTo(52 * s, 226 * s)
+    sp.cubicTo(52 * s, 213 * s, 63 * s, 202 * s, 76 * s, 202 * s)
+    sp.closeSubpath()
+    p.drawPath(sp)
 
-    # sound waves (stroked arcs opening to the right)
-    pen = QPen(color, 18.0 * s)
-    pen.setCapStyle(Qt.PenCapStyle.RoundCap)
-    p.setPen(pen)
+    # sound waves
+    wave = QPen(body, 25.0 * s)
+    wave.setCapStyle(Qt.PenCapStyle.RoundCap)
+    p.setPen(wave)
     p.setBrush(Qt.BrushStyle.NoBrush)
-    for r in (52, 88):
-        p.drawArc(QRectF((278 - r) * s, (256 - r) * s, 2 * r * s, 2 * r * s),
-                  int(-58 * 16), int(116 * 16))
+    w1 = QPainterPath()
+    w1.moveTo(322 * s, 190 * s)
+    w1.cubicTo(344 * s, 208 * s, 356 * s, 231 * s, 356 * s, 256 * s)
+    w1.cubicTo(356 * s, 281 * s, 344 * s, 304 * s, 322 * s, 322 * s)
+    p.drawPath(w1)
+    w2 = QPainterPath()
+    w2.moveTo(369 * s, 137 * s)
+    w2.cubicTo(405 * s, 168 * s, 426 * s, 210 * s, 426 * s, 256 * s)
+    w2.cubicTo(426 * s, 302 * s, 405 * s, 344 * s, 369 * s, 375 * s)
+    p.drawPath(w2)
+
+    # boost badge (green circle + white plus)
+    p.setPen(Qt.PenStyle.NoPen)
+    p.setBrush(plus)
+    p.drawEllipse(QPointF(386 * s, 116 * s), 65 * s, 65 * s)
+    cross_pen = QPen(cross_color, 17.0 * s)
+    cross_pen.setCapStyle(Qt.PenCapStyle.RoundCap)
+    p.setPen(cross_pen)
+    p.drawLine(QPointF(386 * s, 80 * s), QPointF(386 * s, 152 * s))
+    p.drawLine(QPointF(350 * s, 116 * s), QPointF(422 * s, 116 * s))
     p.end()
 
     # percentage / mute badge
@@ -142,7 +169,7 @@ def make_icon(pct: int, muted: bool) -> QIcon:
         p = QPainter(pm)
         p.setRenderHint(QPainter.RenderHint.Antialiasing)
         p.setPen(Qt.PenStyle.NoPen)
-        p.setBrush(QColor(0, 0, 0, 150))
+        p.setBrush(QColor(0, 0, 0, 200))
         p.drawRoundedRect(0, size - h, size, h, r, r)
         p.setPen(QColor("#ffffff"))
         p.setFont(badge)

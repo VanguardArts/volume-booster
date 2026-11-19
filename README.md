@@ -82,19 +82,19 @@ Prebuilt artifacts are on the
 ### Debian / Ubuntu
 
 ```bash
-sudo apt install ./volume-booster_1.1.0_all.deb
+sudo apt install ./volume-booster_1.1.1_all.deb
 ```
 
 ### Fedora / RHEL / Rocky / Alma
 
 ```bash
-sudo dnf install ./volume-booster-1.1.0-1.noarch.rpm
+sudo dnf install ./volume-booster-1.1.1-1.noarch.rpm
 ```
 
 ### openSUSE
 
 ```bash
-sudo zypper install ./volume-booster-1.1.0-1.noarch.rpm
+sudo zypper install ./volume-booster-1.1.1-1.noarch.rpm
 ```
 
 ### Arch Linux
@@ -159,7 +159,7 @@ flatpak uninstall com.vanguardarts.VolumeBooster
 ## Building the installers
 
 ```bash
-make icons     # regenerate PNG icon set (requires Pillow)
+make icons     # regenerate PNG icon set (requires cairosvg)
 make screenshots
 make deb       # -> build/deb/*.deb
 make rpm       # -> build/rpm/RPMS/noarch/*.rpm
