@@ -1,5 +1,5 @@
 Name:           volume-booster
-Version:        1.1.3
+Version:        1.1.4
 Release:        1%{?dist}
 Summary:        System tray volume booster for quiet audio
 License:        MIT
@@ -55,6 +55,7 @@ done
 %{_datadir}/icons/hicolor/512x512/apps/volume-booster.png
 
 %changelog
+* Sat Nov 21 2026 Vanguard Arts SRL <https://vanguardarts.vip/> - 1.1.4-1
 * Fri Nov 20 2026 Vanguard Arts SRL <https://vanguardarts.vip/> - 1.1.3-1
 - Correct project website and support contact info.
 * Fri Nov 20 2026 Vanguard Arts SRL <https://vanguardarts.vip/> - 1.1.2-1

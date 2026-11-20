@@ -6,7 +6,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-VERSION="1.1.3"
+VERSION="1.1.4"
 PKG="volume-booster"
 STAGE="$ROOT/build/deb/${PKG}_${VERSION}_all"
 DEBIAN="$STAGE/DEBIAN"

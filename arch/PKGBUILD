@@ -1,6 +1,6 @@
 # Maintainer: Vanguard Arts SRL <https://vanguardarts.vip/>
 pkgname=volume-booster
-pkgver=1.1.3
+pkgver=1.1.4
 pkgrel=1
 pkgdesc="System tray volume booster for quiet audio (PipeWire/PulseAudio software gain)"
 arch=('any')
