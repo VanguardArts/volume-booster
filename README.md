@@ -186,7 +186,7 @@ for the CI-driven release pipeline (builds `.deb` and `.rpm` on every `v*` tag).
 ## Website & Support
 
 - **Website:** https://vanguardarts.vip/
-- **Support / contact:** [https://vanguardarts.vip/contact](https://vanguardarts.vip/contact) (contact form — no public support email)
+- **Support:** [https://vanguardarts.vip/contact](https://vanguardarts.vip/contact)
 
 ## License
 
