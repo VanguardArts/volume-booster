@@ -82,19 +82,19 @@ Prebuilt artifacts are on the
 ### Debian / Ubuntu
 
 ```bash
-sudo apt install ./volume-booster_1.1.2_all.deb
+sudo apt install ./volume-booster_1.1.3_all.deb
 ```
 
 ### Fedora / RHEL / Rocky / Alma
 
 ```bash
-sudo dnf install ./volume-booster-1.1.2-1.noarch.rpm
+sudo dnf install ./volume-booster-1.1.3-1.noarch.rpm
 ```
 
 ### openSUSE
 
 ```bash
-sudo zypper install ./volume-booster-1.1.2-1.noarch.rpm
+sudo zypper install ./volume-booster-1.1.3-1.noarch.rpm
 ```
 
 ### Arch Linux
@@ -182,6 +182,11 @@ make appimage  # -> build/appimage/*.AppImage            (best run in CI)
 ```
 See `scripts/` for the individual build scripts and `.github/workflows/release.yml`
 for the CI-driven release pipeline (builds `.deb` and `.rpm` on every `v*` tag).
+
+## Website & Support
+
+- **Website:** https://vanguardarts.vip/
+- **Support / contact:** [https://vanguardarts.vip/contact](https://vanguardarts.vip/contact) (contact form — no public support email)
 
 ## License
 

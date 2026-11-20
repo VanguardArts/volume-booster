@@ -6,7 +6,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-VERSION="1.1.2"
+VERSION="1.1.3"
 PKG="volume-booster"
 STAGE="$ROOT/build/deb/${PKG}_${VERSION}_all"
 DEBIAN="$STAGE/DEBIAN"
@@ -54,7 +54,7 @@ $PKG ($VERSION) unstable; urgency=medium
 
   * Initial release.
 
- -- Vanguard Arts SRL <support@vanguardarts.com>  $(date -R)
+ -- Vanguard Arts SRL <https://vanguardarts.vip/>  $(date -R)
 EOF
 gzip -c "$STAGE/usr/share/doc/$PKG/changelog.gz.tmp" > "$STAGE/usr/share/doc/$PKG/changelog.gz"
 rm -f "$STAGE/usr/share/doc/$PKG/changelog.gz.tmp"

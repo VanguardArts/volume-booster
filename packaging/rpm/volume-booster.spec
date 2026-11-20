@@ -1,5 +1,5 @@
 Name:           volume-booster
-Version:        1.1.2
+Version:        1.1.3
 Release:        1%{?dist}
 Summary:        System tray volume booster for quiet audio
 License:        MIT
@@ -55,9 +55,11 @@ done
 %{_datadir}/icons/hicolor/512x512/apps/volume-booster.png
 
 %changelog
-* Fri Nov 20 2026 Vanguard Arts SRL <support@vanguardarts.com> - 1.1.2-1
+* Fri Nov 20 2026 Vanguard Arts SRL <https://vanguardarts.vip/> - 1.1.3-1
+- Correct project website and support contact info.
+* Fri Nov 20 2026 Vanguard Arts SRL <https://vanguardarts.vip/> - 1.1.2-1
 - Add in-app "Launch at startup" toggle.
-* Fri Nov 20 2026 Vanguard Arts SRL <support@vanguardarts.com> - 1.1.1-1
+* Fri Nov 20 2026 Vanguard Arts SRL <https://vanguardarts.vip/> - 1.1.1-1
 - Update app icon (speaker with boost badge).
-* Fri Nov 20 2026 Vanguard Arts SRL <support@vanguardarts.com> - 1.1.0-1
+* Fri Nov 20 2026 Vanguard Arts SRL <https://vanguardarts.vip/> - 1.1.0-1
 - Initial RPM packaging for Fedora / RHEL / Rocky / Alma / openSUSE.

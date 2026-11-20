@@ -9,7 +9,7 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "volume-booster";
-  version = "1.1.2";
+  version = "1.1.3";
 
   src = ./.;
 

@@ -1,10 +1,10 @@
 Package: volume-booster
-Version: 1.1.2
+Version: 1.1.3
 Section: sound
 Priority: optional
 Architecture: all
 Depends: python3, python3-pyqt6, pulseaudio-utils
-Maintainer: Vanguard Arts SRL <support@vanguardarts.com>
+Maintainer: Vanguard Arts SRL <https://vanguardarts.vip/>
 Homepage: https://github.com/VanguardArts/volume-booster
 Description: system tray volume booster for quiet audio
  Boost the default audio output above 100% using PipeWire/PulseAudio
